@@ -1,0 +1,220 @@
+<head>
+  <title>Express Checkout With Meteor Example</title>
+</head>
+
+<body></body>
+
+<template name="layout">
+  <div id="wrapper">
+    <div class="container">
+    {{> yield region="header"}}
+    {{> yield}}
+    {{> yield region="footer"}}
+    {{> yield region="notify"}}
+    </div>
+  </div>
+</template>
+
+<template name="header">
+  <header class="clearfix">
+    <h1 class="logo left">
+      <a href="/">MeteorCart</a>
+    </h1>
+    <div class="right-section right">
+      <div class="accept-paypal clearfix">
+        <a class="right" href="https://www.paypal.com/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" border="0" alt="Now accepting PayPal"></a><div style="text-align:center"><a href="https://www.paypal.com/webapps/mpp/how-paypal-works"><font size="2" face="Arial" color="#0079CD">How PayPal Works</font></a></div>
+      </div>
+      <nav>
+        <ul class="inline-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="#">Store</a></li>
+          <li><a href="#">Testimonials</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="/cart">{{cartCount}}</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+</template>
+
+<template name="footer">
+  <footer>
+    <div class="footer-logo">
+      <a href="/">MeteorCart™ 2014</a>
+    </div>
+  </footer>
+</template>
+
+<template name="notify">
+  <div class="notify {{visible}}">
+    <a href="/cart">
+      {{#if itemAdded}}
+      You've added an item
+      {{else}}
+      {{#if itemRemoved}}
+      You've removed an item
+      {{/if}}
+      {{/if}}
+    </a>
+  </div>
+</template>
+
+<template name="home">
+  <div class="hero">
+    <h2>Welcome to MeteorCart</h2>
+    <p class="intro">Pick your favorite game that you want to buy below</p>
+  </div>
+  <div class="shop-container">
+    <ul class="shop-items">
+      {{#each game}}
+      <li class="shop-item" data-id="{{_id}}">
+        <div class="item-image">
+          <img src="{{imageURL}}" alt="">
+          <div class="action">
+            <a href="/item/{{_id}}" class="view">View</a>
+            <a href="#" class="add-to-cart">Add to Cart</a>
+          </div>
+        </div>
+        <div class="item-description">
+          {{itemName}}
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="itemPage">
+  <div class="item-container clearfix" data-id="{{_id}}">
+    <div class="item-image left">
+      <img src="{{imageURL}}" alt="">
+    </div>
+    <div class="item-description left">
+      <h3>{{itemName}}</h3>
+      <div class="info">{{description}}</div>
+      <div class="action">
+        <a href="#" class="add-to-cart button large radius">Add This</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="cartPage">
+  <div class="cart-container">
+    <h3>Your shopping cart</h3>
+    <table class="item-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th></th>
+        </tr>
+      </thead>
+      {{#with items}}
+      <tbody>
+        {{#each item}}
+        <tr>
+          <td class="item-image"><img src="{{imageURL}}" alt=""></td>
+          <td><a href="/item/{{_id}}">{{itemName}}</a></td>
+          <td>${{itemPrice}}</td>
+          <td>{{quantity}}</td>
+          <td><a href="#">Remove</a></td>
+        </tr>
+        {{/each}}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Total Price</td>
+          <td>{{totalPrice}}</td>
+        </tr>
+      </tfoot>
+      {{/with}}
+    </table>
+  </div>
+  <div class="checkout clearfix">
+    <a href="#paypal" class="checkout-paypal right">
+      <img src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_checkout_pp_142x27.png" alt="Checkout with PayPal">
+    </a>
+  </div>
+  <div class="overlay {{visible}}">
+    {{#if request}}
+    <div class="notice">
+      Sending your request to PayPal...
+    </div>
+    {{else}}
+    {{#if done}}
+    <div class="notice">
+      Redirecting you to PayPal...
+    </div>
+    {{/if}}
+    {{/if}}
+  </div>
+</template>
+
+<template name="revieworder">
+  <div class="review-order-container">
+    {{#if detailsRequested}}
+    <div class="order-details">
+      <h3>Your Order</h3>
+      <table class="item-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        {{#with orderDetails}}
+        <tbody>
+          {{#each orderDetails}}
+          <tr>
+            <td class="item-image"><img src="{{imageURL}}" alt=""></td>
+            <td>{{itemName}}</td>
+            <td>${{itemPrice}}</td>
+            <td>{{quantity}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>Total Price</td>
+            <td>{{totalPrice}}</td>
+          </tr>
+        </tfoot>
+        {{/with}}
+      </table>
+    </div>
+    <div class="action clearfix">
+      <a href="#" class="pay-now button radius large right">Complete Your Purchases</a>
+    </div>
+    {{else}}
+    <h2>Processing...</h2>
+    {{/if}}
+
+    <div class="overlay {{visible}}">
+    {{#if processingPayment}}
+      <div class="notice">
+        Completing your transaction...
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="completeOrder">
+  <div class="process-order">
+    <div class="thank-you">
+      Thank you for your order!
+    </div>
+    <div class="info">Here's your download number: {{booking}}</div>
+  </div>
+</template>

@@ -14,15 +14,18 @@ Items.allow({
 });
 
 // API credentials
-var user = "lulz_api1.ebay.com",
-    password = "1394421936",
-    signature = "AFcWxV21C7fd0v3bYYYRCpSSRl31AS4PTBFxknVnTdhxVPQtr4rk.0An",
+// "lulz_api1.ebay.com"
+// 1394421936
+// "AFcWxV21C7fd0v3bYYYRCpSSRl31AS4PTBFxknVnTdhxVPQtr4rk.0An"
+var user = "your API username",
+    password = "your API password",
+    signature = "your API credentials",
     nvp = "&USER=" + user + "&PWD=" + password + "&SIGNATURE=" + signature;
 
-//PayPal Sandbox URL
+//PayPal Sandbox URL. remove sandbox to use in Live
 redirectEC= "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=";
 
-//PayPal Sandbox endpoint
+//PayPal Sandbox endpoint. remove sandbox to use in Live
 endpoint = "https://api-3t.sandbox.paypal.com/nvp";
 
 // SetEC

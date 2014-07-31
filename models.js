@@ -27,7 +27,7 @@ endpoint = "https://api-3t.sandbox.paypal.com/nvp";
 
 // SetEC
 Meteor.methods({
-  setEC: function (items) {
+  setEC: function (items, rootURL) {
     var previousId = null,
         totalPrice = 0,
         c = [],
@@ -45,8 +45,8 @@ Meteor.methods({
     if (Meteor.isServer) {
       return Meteor.http.call("GET", endpoint, {
           query: nvp+"&METHOD=SetExpressCheckout&VERSION=95.0"
-          + "&RETURNURL=http://meteorcart.meteor.com/revieworder"
-          + "&CANCELURL=http://meteorcart.meteor.com/"
+          + "&RETURNURL=" + rootURL + "/revieworder"
+          + "&CANCELURL=" + rootURL
           + "&PAYMENTREQUEST_0_CURRENCYCODE=USD"
           + "&LOCALCODE=US"
           + "&NOSHIPPING=1"

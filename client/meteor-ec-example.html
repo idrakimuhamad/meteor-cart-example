@@ -9,7 +9,6 @@
     <div class="container">
     {{> yield region="header"}}
     {{> yield}}
-    {{> yield region="loading"}}
     {{> yield region="footer"}}
     {{> yield region="notify"}}
     </div>
@@ -76,6 +75,9 @@
     <h2>Welcome to MeteorCart</h2>
     <p class="intro">Pick your favorite game that you want to buy below</p>
   </div>
+  {{#if isLoading}}
+  {{> loading}}
+  {{else}}
   <div class="shop-container">
     <ul class="shop-items">
       {{#each game}}
@@ -94,6 +96,7 @@
       {{/each}}
     </ul>
   </div>
+  {{/if}}
 </template>
 
 <template name="itemPage">
@@ -208,7 +211,7 @@
       <a href="#" class="pay-now button radius large right">Complete Your Purchases</a>
     </div>
     {{else}}
-    <h2>Processing...</h2>
+    {{> loading}}
     {{/if}}
 
     <div class="overlay {{visible}}">
@@ -216,7 +219,7 @@
       <div class="notice">
         Completing your transaction...
       </div>
-      {{/if}}
+    {{/if}}
     </div>
   </div>
 </template>

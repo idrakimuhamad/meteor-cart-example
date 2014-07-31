@@ -15,6 +15,9 @@ Template.header.helpers({
 });
 
 Template.home.helpers({
+  isLoading: function () {
+    return ! Session.get("itemReady");
+  },
   game: function () {
     return Items.find({});
   }
@@ -112,7 +115,7 @@ Template.cartPage.events({
     if (cartItems.length) {
       Session.set("setec", true);
 
-      Meteor.call("setEC", cartItems, function (error, result) {
+      Meteor.call("setEC", cartItems, window.location.origin, function (error, result) {
         if (! error) {
           Session.set("setec", false);
           Session.set("doneSet", true);

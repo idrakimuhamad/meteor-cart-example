@@ -177,7 +177,7 @@ a {
   }
   .notice {
     text-align: center;
-    margin-top: 30%;
+    margin-top: 20%;
     color: #dedede;
   }
 }
@@ -200,7 +200,7 @@ a {
 
 footer {
   text-align: center;
-  margin-top: 3em;
+  margin-top: 5em;
   padding: 2em 1em;
   background: #00bcd4;
   a {
@@ -210,11 +210,17 @@ footer {
 
 .loading {
   text-align: center;
+  height: 60px;
+  z-index: 10;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+  transition: all 0.3s ease-in-out 0s;
   div {
     height: 100%;
     width: 7px;
     margin: 0 3px 0 0;
-    background-color: #FFF;
+    background-color: #ff9800;
     display: inline-block;
     animation: stretchdelay 1.2s infinite ease-in-out;
   }
